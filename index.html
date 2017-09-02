@@ -17,7 +17,7 @@ html, body, #googft-mapCanvas {
 </head>
 
 <body>
-<h1>Wildfires in Canada</h1>
+<h1>Fires in Canada</h1>
   <div id="googft-mapCanvas"></div>
   <h3>Filters</h3>
   <div id="filters" style="top: 0px; right: 0px;" >
@@ -53,6 +53,8 @@ Maximum Area: <input type="text" id="area_max_box" value=577646.8><br>
 <input type="checkbox" id="opt_12" value="Fire" checked> Fire<br>
 <input type="checkbox" id="opt_13" value="Duplicate" checked> Duplicate<br>
 <input type="checkbox" id="opt_14" value="Crown" checked> Crown<br>
+<input type="checkbox" id="opt_15" value="" checked> No value<br>
+
 
 
 
@@ -94,6 +96,7 @@ Maximum Area: <input type="text" id="area_max_box" value=577646.8><br>
     var area_max_val=document.getElementById("area_max_box").value;
     //var options = ["AB", "BC", "MB" , "ON" , "SK"];
     var options = [];
+    var options2=[];
     if(document.getElementById("opt1").checked==true)
       options[0]="AB";
     else
@@ -115,6 +118,66 @@ Maximum Area: <input type="text" id="area_max_box" value=577646.8><br>
     else
       options[4]="";
 
+    if(document.getElementById("opt_1").checked==true)
+      options2[0]="Wildfire";
+    else
+      options2[0]="None";
+    if(document.getElementById("opt_2").checked==true)
+      options2[1]="Unknown";
+    else
+      options2[1]="None";
+    if(document.getElementById("opt_3").checked==true)
+      options2[2]="Test/Training";
+    else
+      options2[2]="None";
+    if(document.getElementById("opt_4").checked==true)
+      options2[3]="Surface";
+    else
+      options2[3]="None";
+    if(document.getElementById("opt_5").checked==true)
+      options2[4]="Smoke Chase";
+    else
+      options2[4]="None";
+if(document.getElementById("opt_6").checked==true)
+      options2[5]="PB";
+    else
+      options2[5]="None";
+    if(document.getElementById("opt_7").checked==true)
+      options2[6]="OFR";
+    else
+      options2[6]="None";
+    if(document.getElementById("opt_8").checked==true)
+      options2[7]="Nuisance";
+    else
+      options2[7]="None";
+    if(document.getElementById("opt_9").checked==true)
+      options2[8]="Mutual Aid";
+    else
+      options2[8]="None";
+    if(document.getElementById("opt_10").checked==true)
+      options2[9]="IFR";
+    else
+      options2[9]="None";
+if(document.getElementById("opt_11").checked==true)
+      options2[10]="Ground";
+    else
+      options2[10]="None";
+    if(document.getElementById("opt_12").checked==true)
+      options2[11]="Fire";
+    else
+      options2[11]="None";
+    if(document.getElementById("opt_13").checked==true)
+      options2[12]="Duplicate";
+    else
+      options2[12]="None";
+    if(document.getElementById("opt_14").checked==true)
+      options2[13]="Crown";
+    else
+      options2[13]="None";
+    if(document.getElementById("opt_15").checked==true)
+      options2[14]="";
+    else
+      options2[14]="None";
 
     layer = new google.maps.FusionTablesLayer({
       map: map,
@@ -123,7 +186,7 @@ Maximum Area: <input type="text" id="area_max_box" value=577646.8><br>
         select: "col4",
         from: "1Ljb5PV1HH4GSH7_-H5z-i1riK5LUmV2M_EEnNFnV",
         /*where: "col6 \x3e\x3d \x272014\x27 and col6 \x3c\x3d \x272015\x27 and col7 \x3e\x3d "+month_min_val+" and col7 \x3c\x3d "+month_max_val+" and col8 \x3e\x3d "+day_min_val+" and col8 \x3c\x3d "+day_max_val+" and col13 \x3e\x3d "+area_min_val+" and col13 \x3c\x3d  and "+area_max_val+"col14 in (\x27H-PB\x27) and col16 in (\x27Wildfire\x27, \x27Unknown\x27, \x27Test/Training\x27, \x27Surface\x27, \x27Smoke Chase\x27, \x27PB\x27, \x27OFR\x27, \x27Nuisance\x27, \x27Mutual Aid\x27, \x27IFR\x27, \x27Ground\x27, \x27Fire\x27, \x27Duplicate\x27, \x27Crown\x27, \x27\x27)"*/
-        where: "col6 \x3e\x3d \x27"+year_min_val+"\x27 and col6 \x3c\x3d \x27"+year_max_val+"\x27 and col7 \x3e\x3d 0 and col7 \x3c\x3d 12 and col8 \x3e\x3d 0 and col8 \x3c\x3d 31 and col13 \x3e\x3d "+area_min_val+" and col13 \x3c\x3d "+area_min_val+" and col14 in (\x27H-PB\x27, \x27Re\x27, \x27H\x27, \x27L\x27, \x27U\x27) and col16 in (\x27Wildfire\x27, \x27Unknown\x27, \x27Test/Training\x27, \x27Surface\x27, \x27Smoke Chase\x27, \x27PB\x27, \x27OFR\x27, \x27Nuisance\x27, \x27Mutual Aid\x27, \x27IFR\x27, \x27Ground\x27, \x27Fire\x27, \x27Duplicate\x27, \x27Crown\x27, \x27\x27) and col1 in (\x27"+options[0]+"\x27, \x27"+options[1]+"\x27, \x27"+options[2]+"\x27, \x27"+options[3]+"\x27, \x27"+options[4]+"\x27)"
+        where: "col6 \x3e\x3d \x27"+year_min_val+"\x27 and col6 \x3c\x3d \x27"+year_max_val+"\x27 and col7 \x3e\x3d 0 and col7 \x3c\x3d 12 and col8 \x3e\x3d 0 and col8 \x3c\x3d 31 and col13 \x3e\x3d "+area_min_val+" and col13 \x3c\x3d "+area_max_val+" and col14 in (\x27H-PB\x27, \x27Re\x27, \x27H\x27, \x27L\x27, \x27U\x27) and col16 in (\x27"+options2[0]+"\x27, \x27"+options2[1]+"\x27, \x27"+options2[2]+"\x27, \x27"+options2[3]+"\x27, \x27"+options2[4]+"\x27, \x27"+options2[5]+"\x27, \x27"+options2[6]+"\x27, \x27"+options2[7]+"\x27, \x27"+options2[8]+"\x27, \x27"+options2[9]+"\x27, \x27"+options2[10]+"\x27, \x27"+options2[11]+"\x27, \x27"+options2[12]+"\x27, \x27"+options2[13]+"\x27, \x27"+options2[14]+"\x27) and col1 in (\x27"+options[0]+"\x27, \x27"+options[1]+"\x27, \x27"+options[2]+"\x27, \x27"+options[3]+"\x27, \x27"+options[4]+"\x27)"
       },
       options: {
         styleId: 2,
@@ -167,7 +230,54 @@ Maximum Area: <input type="text" id="area_max_box" value=577646.8><br>
     document.getElementById("opt5").addEventListener( 'change', function() {
     initialize();
 });
+
+    document.getElementById("opt_1").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_2").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_3").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_4").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_5").addEventListener( 'change', function() {
+    initialize();
+});
   
+  document.getElementById("opt_6").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_7").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_8").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_9").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_10").addEventListener( 'change', function() {
+    initialize();
+});
+
+    document.getElementById("opt_11").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_12").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_13").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_14").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_15").addEventListener( 'change', function() {
+    initialize();
+});
 </script>
 </body>
 
