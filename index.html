@@ -3,64 +3,97 @@
 <head>
 <meta name="viewport"></meta>
 <title>Wildfires in Canada</title>
-<style type="text/css">
+<link href="nouislider.min.css" rel="stylesheet">
+<!-- <style type="text/css">
 html, body, #googft-mapCanvas {
+  
   height: 300px;
   margin: 0;
   padding: 0;
   width: 500px;
 }
-</style>
+</style> -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
 
 </head>
 
 <body>
+
+
 <h1>Fires in Canada</h1>
   <div id="googft-mapCanvas"></div>
   <h3>Filters</h3>
-  <div id="filters" style="top: 0px; right: 0px;" >
-  <h4>Year of occurence</h4>
+  <div id="filters">
+  <div style="width: 100%; overflow: hidden;">
+    <div style="width: 600px; float: left;"> <h4>Year of occurence</h4>
   <div id="year_box">
-  Minimum Year: <input type="text" id="year_min_box" value=1950><br>
-Maximum Year: <input type="text" id="year_max_box" value=2015><br> 
+  <div id="slider-non-linear-step"></div>
+  <div style="width: 100%; overflow: hidden;">
+    <div style="width: 500px; float: left;"> 
+  <div id="nonLinearStepSliderValueElementLower">1950</div>Min Year </div>
+    <div style="margin-left: 530px;"> 
+  <div id="nonLinearStepSliderValueElementUpper">2015</div>Max Year </div>
+</div>
+  
+  
+  
+  <!-- Minimum Year: <input type="text" id="year_min_box" value=1950><br>
+Maximum Year: <input type="text" id="year_max_box" value=2015><br>  -->
   </div>
   <h4>Area (in hectares)</h4>
   <div id="area_box">
-  Minimum Area: <input type="text" id="area_min_box" value=10><br>
-Maximum Area: <input type="text" id="area_max_box" value=577646.8><br> 
+  <div id="slider-area-linear-step"></div>
+  <div style="width: 100%; overflow: hidden;">
+    <div style="width: 500px; float: left;"> 
+  <div id="areaLinearStepSliderValueElementLower">1950</div>Min area </div>
+    <div style="margin-left: 525px;"> 
+  <div id="areaLinearStepSliderValueElementUpper">2015</div>Max area </div>
+</div>
+  
+  
+  
+  <!-- Minimum area: <input type="text" id="area_min_box" value=1950><br>
+Maximum area: <input type="text" id="area_max_box" value=2015><br>  -->
   </div>
-  <h4>Province</h4>
+ </div>
+    <div style="margin-left: 650px;"> 
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 200px; float: left;"> <h4>Province</h4>
   <input type="checkbox" id="opt1" value="AB" checked> Alberta<br>
   <input type="checkbox" id="opt2" value="BC" checked> British Columbia<br>
   <input type="checkbox" id="opt3" value="MB" checked> Manitoba<br>
   <input type="checkbox" id="opt4" value="ON" checked> Ontario<br>
-  <input type="checkbox" id="opt5" value="SK" checked> Saskatchewan<br>
-
-  <h4>Type</h4>
-  <input type="checkbox" id="opt_1" value="Wildfire" checked> Wildfire<br>
+  <input type="checkbox" id="opt5" value="SK" checked> Saskatchewan<br> </div>
+    <div style="margin-left: 200px;"> <h4>Type</h4>
+    <div style="width: 100%; overflow: hidden;">
+    <div style="width: 200px; float: left;"> <input type="checkbox" id="opt_1" value="Wildfire" checked> Wildfire<br>
     <input type="checkbox" id="opt_2" value="Unknown" checked> Unknown<br>
         <input type="checkbox" id="opt_3" value="Test/Training" checked> Test Training<br>
                 <input type="checkbox" id="opt_4" value="Surface" checked> Surface<br>
                 <input type="checkbox" id="opt_5" value="Smoke Chase" checked> Smoke Chase<br>
                                 <input type="checkbox" id="opt_6" value="PB" checked> PB<br>
-<input type="checkbox" id="opt_7" value="OFR" checked> OFR<br>
+<input type="checkbox" id="opt_7" value="OFR" checked> OFR<br> 
 <input type="checkbox" id="opt_8" value="Nuisance" checked> Nuisance<br>
+</div>
+    <div style="margin-left: 200px;"> 
 <input type="checkbox" id="opt_9" value="Mutual Aid" checked> Mutual Aid<br>
 <input type="checkbox" id="opt_10" value="IFR" checked> IFR<br>
 <input type="checkbox" id="opt_11" value="Ground" checked> Ground<br>
 <input type="checkbox" id="opt_12" value="Fire" checked> Fire<br>
 <input type="checkbox" id="opt_13" value="Duplicate" checked> Duplicate<br>
 <input type="checkbox" id="opt_14" value="Crown" checked> Crown<br>
-<input type="checkbox" id="opt_15" value="" checked> No value<br>
+<input type="checkbox" id="opt_15" value="" checked> No value<br> </div>
+</div>
+  
+ </div>
+</div>
 
 
-
-
-
-
-    <input id="clickMe" type="button" value="Find" onclick="initialize();" />
+  
+ </div>
+</div>
+    
   </div>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZdQ_NOF1EXcwWyKCLU5wC4JXIDELfO-M"></script>
@@ -86,14 +119,14 @@ Maximum Area: <input type="text" id="area_max_box" value=577646.8><br>
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
-    var year_min_val=document.getElementById("year_min_box").value;
-    var year_max_val=document.getElementById("year_max_box").value;
+    var year_min_val=nonLinearStepSliderValueElementLower.innerHTML;
+    var year_max_val=nonLinearStepSliderValueElementUpper.innerHTML;
     var month_min_val=0;
     var month_max_val=12;
     var day_min_val=0;
     var day_max_val=31;
-    var area_min_val=document.getElementById("area_min_box").value;
-    var area_max_val=document.getElementById("area_max_box").value;
+    var area_min_val=areaLinearStepSliderValueElementLower.innerHTML;
+    var area_max_val=areaLinearStepSliderValueElementUpper.innerHTML;
     //var options = ["AB", "BC", "MB" , "ON" , "SK"];
     var options = [];
     var options2=[];
@@ -211,7 +244,6 @@ if(document.getElementById("opt_11").checked==true)
       }
     }
   }
-
   google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 <script type="text/javascript">
@@ -277,6 +309,55 @@ if(document.getElementById("opt_11").checked==true)
 });
     document.getElementById("opt_15").addEventListener( 'change', function() {
     initialize();
+});
+</script>
+<script src="nouislider.min.js"></script>
+<script type="text/javascript">
+
+var nonLinearStepSlider = document.getElementById('slider-non-linear-step');
+
+noUiSlider.create(nonLinearStepSlider, {
+  start: [ 1950, 2015 ],
+  step: 1,
+  range: {
+    'min': [     1950 ],
+    'max': [ 2015 ]
+  }
+});
+
+//var nonLinearStepSliderValueElement = document.getElementById('slider-non-linear-step-value');
+
+nonLinearStepSlider.noUiSlider.on('update', function( values, handle ) {
+  if(handle==0)
+    nonLinearStepSliderValueElementLower.innerHTML = values[handle];
+  else if(handle==1)
+    nonLinearStepSliderValueElementUpper.innerHTML = values[handle];
+    initialize();
+
+});
+</script>
+
+<script type="text/javascript">
+
+var areaLinearStepSlider = document.getElementById('slider-area-linear-step');
+
+noUiSlider.create(areaLinearStepSlider, {
+  start: [ 10, 577646.8 ],
+  range: {
+    'min': [     10 ],
+    'max': [ 577646.8 ]
+  }
+});
+
+//var areaLinearStepSliderValueElement = document.getElementById('slider-area-linear-step-value');
+
+areaLinearStepSlider.noUiSlider.on('update', function( values, handle ) {
+  if(handle==0)
+    areaLinearStepSliderValueElementLower.innerHTML = values[handle];
+  else if(handle==1)
+    areaLinearStepSliderValueElementUpper.innerHTML = values[handle];
+    initialize();
+
 });
 </script>
 </body>
