@@ -1,1 +1,349 @@
-sdfsdfsdf
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport"></meta>
+<title>Wildfires in Canada</title>
+<link href="nouislider.min.css" rel="stylesheet">
+<!-- <style type="text/css">
+html, body, #googft-mapCanvas {
+  
+  height: 300px;
+  margin: 0;
+  padding: 0;
+  width: 500px;
+}
+</style> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+
+
+<h1>Fires in Canada</h1>
+  <div id="googft-mapCanvas"></div>
+  <h3>Filters</h3>
+  <div id="filters">
+  <div style="width: 100%; overflow: hidden;">
+    <div style="width: 600px; float: left;"> <h4>Year of occurence</h4>
+  <div id="year_box">
+  <div id="slider-non-linear-step"></div>
+  <div style="width: 100%; overflow: hidden;">
+    <div style="width: 500px; float: left;"> 
+  <div id="nonLinearStepSliderValueElementLower">1950</div>Min Year </div>
+    <div style="margin-left: 530px;"> 
+  <div id="nonLinearStepSliderValueElementUpper">2015</div>Max Year </div>
+</div>
+  
+  
+  
+  <!-- Minimum Year: <input type="text" id="year_min_box" value=1950><br>
+Maximum Year: <input type="text" id="year_max_box" value=2015><br>  -->
+  </div>
+  <h4>Area (in hectares)</h4>
+  <div id="area_box">
+  <div id="slider-area-linear-step"></div>
+  <div style="width: 100%; overflow: hidden;">
+    <div style="width: 500px; float: left;"> 
+  <div id="areaLinearStepSliderValueElementLower">1950</div>Min area </div>
+    <div style="margin-left: 525px;"> 
+  <div id="areaLinearStepSliderValueElementUpper">2015</div>Max area </div>
+</div>
+  
+  
+  
+  <!-- Minimum area: <input type="text" id="area_min_box" value=1950><br>
+Maximum area: <input type="text" id="area_max_box" value=2015><br>  -->
+  </div>
+ </div>
+    <div style="margin-left: 650px;"> 
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 200px; float: left;"> <h4>Province</h4>
+  <input type="checkbox" id="opt1" value="AB" checked> Alberta<br>
+  <input type="checkbox" id="opt2" value="BC" checked> British Columbia<br>
+  <input type="checkbox" id="opt3" value="MB" checked> Manitoba<br>
+  <input type="checkbox" id="opt4" value="ON" checked> Ontario<br>
+  <input type="checkbox" id="opt5" value="SK" checked> Saskatchewan<br> </div>
+    <div style="margin-left: 200px;"> <h4>Type</h4>
+    <div style="width: 100%; overflow: hidden;">
+    <div style="width: 200px; float: left;"> <input type="checkbox" id="opt_1" value="Wildfire" checked> Wildfire<br>
+    <input type="checkbox" id="opt_2" value="Unknown" checked> Unknown<br>
+        <input type="checkbox" id="opt_3" value="Test/Training" checked> Test Training<br>
+                <input type="checkbox" id="opt_4" value="Surface" checked> Surface<br>
+                <input type="checkbox" id="opt_5" value="Smoke Chase" checked> Smoke Chase<br>
+                                <input type="checkbox" id="opt_6" value="PB" checked> PB<br>
+<input type="checkbox" id="opt_7" value="OFR" checked> OFR<br> 
+<input type="checkbox" id="opt_8" value="Nuisance" checked> Nuisance<br>
+</div>
+    <div style="margin-left: 200px;"> 
+<input type="checkbox" id="opt_9" value="Mutual Aid" checked> Mutual Aid<br>
+<input type="checkbox" id="opt_10" value="IFR" checked> IFR<br>
+<input type="checkbox" id="opt_11" value="Ground" checked> Ground<br>
+<input type="checkbox" id="opt_12" value="Fire" checked> Fire<br>
+<input type="checkbox" id="opt_13" value="Duplicate" checked> Duplicate<br>
+<input type="checkbox" id="opt_14" value="Crown" checked> Crown<br>
+<input type="checkbox" id="opt_15" value="" checked> No value<br> </div>
+</div>
+  
+ </div>
+</div>
+
+
+  
+ </div>
+</div>
+    
+  </div>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZdQ_NOF1EXcwWyKCLU5wC4JXIDELfO-M"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+  function initialize() {
+    google.maps.visualRefresh = true;
+    var isMobile = (navigator.userAgent.toLowerCase().indexOf('android') > -1) ||
+      (navigator.userAgent.match(/(iPod|iPhone|iPad|BlackBerry|Windows Phone|iemobile)/));
+    if (isMobile) {
+      var viewport = document.querySelector("meta[name=viewport]");
+      viewport.setAttribute('content', 'initial-scale=1.0, user-scalable=no');
+    }
+    var mapDiv = document.getElementById('googft-mapCanvas');
+    mapDiv.style.width = isMobile ? '100%' : '1500px';
+    mapDiv.style.height = isMobile ? '100%' : '400px';
+    var map = new google.maps.Map(mapDiv, {
+      center: new google.maps.LatLng(51.045, -114.057222),
+      zoom: 4,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    var year_min_val=nonLinearStepSliderValueElementLower.innerHTML;
+    var year_max_val=nonLinearStepSliderValueElementUpper.innerHTML;
+    var month_min_val=0;
+    var month_max_val=12;
+    var day_min_val=0;
+    var day_max_val=31;
+    var area_min_val=areaLinearStepSliderValueElementLower.innerHTML;
+    var area_max_val=areaLinearStepSliderValueElementUpper.innerHTML;
+    //var options = ["AB", "BC", "MB" , "ON" , "SK"];
+    var options = [];
+    var options2=[];
+    if(document.getElementById("opt1").checked==true)
+      options[0]="AB";
+    else
+      options[0]="";
+    if(document.getElementById("opt2").checked==true)
+      options[1]="BC";
+    else
+      options[1]="";
+    if(document.getElementById("opt3").checked==true)
+      options[2]="MB";
+    else
+      options[2]="";
+    if(document.getElementById("opt4").checked==true)
+      options[3]="ON";
+    else
+      options[3]="";
+    if(document.getElementById("opt5").checked==true)
+      options[4]="SK";
+    else
+      options[4]="";
+    if(document.getElementById("opt_1").checked==true)
+      options2[0]="Wildfire";
+    else
+      options2[0]="None";
+    if(document.getElementById("opt_2").checked==true)
+      options2[1]="Unknown";
+    else
+      options2[1]="None";
+    if(document.getElementById("opt_3").checked==true)
+      options2[2]="Test/Training";
+    else
+      options2[2]="None";
+    if(document.getElementById("opt_4").checked==true)
+      options2[3]="Surface";
+    else
+      options2[3]="None";
+    if(document.getElementById("opt_5").checked==true)
+      options2[4]="Smoke Chase";
+    else
+      options2[4]="None";
+if(document.getElementById("opt_6").checked==true)
+      options2[5]="PB";
+    else
+      options2[5]="None";
+    if(document.getElementById("opt_7").checked==true)
+      options2[6]="OFR";
+    else
+      options2[6]="None";
+    if(document.getElementById("opt_8").checked==true)
+      options2[7]="Nuisance";
+    else
+      options2[7]="None";
+    if(document.getElementById("opt_9").checked==true)
+      options2[8]="Mutual Aid";
+    else
+      options2[8]="None";
+    if(document.getElementById("opt_10").checked==true)
+      options2[9]="IFR";
+    else
+      options2[9]="None";
+if(document.getElementById("opt_11").checked==true)
+      options2[10]="Ground";
+    else
+      options2[10]="None";
+    if(document.getElementById("opt_12").checked==true)
+      options2[11]="Fire";
+    else
+      options2[11]="None";
+    if(document.getElementById("opt_13").checked==true)
+      options2[12]="Duplicate";
+    else
+      options2[12]="None";
+    if(document.getElementById("opt_14").checked==true)
+      options2[13]="Crown";
+    else
+      options2[13]="None";
+    if(document.getElementById("opt_15").checked==true)
+      options2[14]="";
+    else
+      options2[14]="None";
+    layer = new google.maps.FusionTablesLayer({
+      map: map,
+      heatmap: { enabled: false },
+      query: {
+        select: "col4",
+        from: "1Ljb5PV1HH4GSH7_-H5z-i1riK5LUmV2M_EEnNFnV",
+        /*where: "col6 \x3e\x3d \x272014\x27 and col6 \x3c\x3d \x272015\x27 and col7 \x3e\x3d "+month_min_val+" and col7 \x3c\x3d "+month_max_val+" and col8 \x3e\x3d "+day_min_val+" and col8 \x3c\x3d "+day_max_val+" and col13 \x3e\x3d "+area_min_val+" and col13 \x3c\x3d  and "+area_max_val+"col14 in (\x27H-PB\x27) and col16 in (\x27Wildfire\x27, \x27Unknown\x27, \x27Test/Training\x27, \x27Surface\x27, \x27Smoke Chase\x27, \x27PB\x27, \x27OFR\x27, \x27Nuisance\x27, \x27Mutual Aid\x27, \x27IFR\x27, \x27Ground\x27, \x27Fire\x27, \x27Duplicate\x27, \x27Crown\x27, \x27\x27)"*/
+        where: "col6 \x3e\x3d \x27"+year_min_val+"\x27 and col6 \x3c\x3d \x27"+year_max_val+"\x27 and col7 \x3e\x3d 0 and col7 \x3c\x3d 12 and col8 \x3e\x3d 0 and col8 \x3c\x3d 31 and col13 \x3e\x3d "+area_min_val+" and col13 \x3c\x3d "+area_max_val+" and col14 in (\x27H-PB\x27, \x27Re\x27, \x27H\x27, \x27L\x27, \x27U\x27) and col16 in (\x27"+options2[0]+"\x27, \x27"+options2[1]+"\x27, \x27"+options2[2]+"\x27, \x27"+options2[3]+"\x27, \x27"+options2[4]+"\x27, \x27"+options2[5]+"\x27, \x27"+options2[6]+"\x27, \x27"+options2[7]+"\x27, \x27"+options2[8]+"\x27, \x27"+options2[9]+"\x27, \x27"+options2[10]+"\x27, \x27"+options2[11]+"\x27, \x27"+options2[12]+"\x27, \x27"+options2[13]+"\x27, \x27"+options2[14]+"\x27) and col1 in (\x27"+options[0]+"\x27, \x27"+options[1]+"\x27, \x27"+options[2]+"\x27, \x27"+options[3]+"\x27, \x27"+options[4]+"\x27)"
+      },
+      options: {
+        styleId: 2,
+        templateId: 2
+      }
+    });
+    if (isMobile) {
+      var legend = document.getElementById('googft-legend');
+      var legendOpenButton = document.getElementById('googft-legend-open');
+      var legendCloseButton = document.getElementById('googft-legend-close');
+      legend.style.display = 'none';
+      legendOpenButton.style.display = 'block';
+      legendCloseButton.style.display = 'block';
+      legendOpenButton.onclick = function() {
+        legend.style.display = 'block';
+        legendOpenButton.style.display = 'none';
+      }
+      legendCloseButton.onclick = function() {
+        legend.style.display = 'none';
+        legendOpenButton.style.display = 'block';
+      }
+    }
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<script type="text/javascript">
+  document.getElementById("opt1").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt2").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt3").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt4").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt5").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_1").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_2").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_3").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_4").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_5").addEventListener( 'change', function() {
+    initialize();
+});
+  
+  document.getElementById("opt_6").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_7").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_8").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_9").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_10").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_11").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_12").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_13").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_14").addEventListener( 'change', function() {
+    initialize();
+});
+    document.getElementById("opt_15").addEventListener( 'change', function() {
+    initialize();
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.1.0/nouislider.min.js"></script>
+<script type="text/javascript">
+var nonLinearStepSlider = document.getElementById('slider-non-linear-step');
+noUiSlider.create(nonLinearStepSlider, {
+  start: [ 1950, 2015 ],
+  step: 1,
+  range: {
+    'min': [     1950 ],
+    'max': [ 2015 ]
+  }
+});
+//var nonLinearStepSliderValueElement = document.getElementById('slider-non-linear-step-value');
+nonLinearStepSlider.noUiSlider.on('update', function( values, handle ) {
+  if(handle==0)
+    nonLinearStepSliderValueElementLower.innerHTML = values[handle];
+  else if(handle==1)
+    nonLinearStepSliderValueElementUpper.innerHTML = values[handle];
+    initialize();
+});
+</script>
+
+<script type="text/javascript">
+var areaLinearStepSlider = document.getElementById('slider-area-linear-step');
+noUiSlider.create(areaLinearStepSlider, {
+  start: [ 10, 577646.8 ],
+  range: {
+    'min': [     10 ],
+    'max': [ 577646.8 ]
+  }
+});
+//var areaLinearStepSliderValueElement = document.getElementById('slider-area-linear-step-value');
+areaLinearStepSlider.noUiSlider.on('update', function( values, handle ) {
+  if(handle==0)
+    areaLinearStepSliderValueElementLower.innerHTML = values[handle];
+  else if(handle==1)
+    areaLinearStepSliderValueElementUpper.innerHTML = values[handle];
+    initialize();
+});
+</script>
+</body>
+
+</html>
